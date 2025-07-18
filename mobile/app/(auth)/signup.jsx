@@ -27,19 +27,24 @@ export default function signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  
   const { user, isLoading, register } = useAuthStore();
 
   const router = useRouter();
   const handleSignup = async () => {
 
     if (!firstName || !lastName || !email || !password) {
-      Alert.alert('Error', 'Please fill in all fields');
+        if (Platform.OS === 'web') {
+          window.alert('Please fill in all fields');
+        } else {
+          Alert.alert('Error', 'Please fill in all fields');
+        }
       return;
     }
     try {
       const result = await register(firstName, lastName, email, password);
       if (!result.success) {
-        Alert.alert('Error', result.message);
+        Alert.alert('Eror', result.message);
       }
     } catch (error) {
       Alert.alert('Error', error.message);
